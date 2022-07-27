@@ -1,0 +1,13 @@
+challenge:
+  outputs:
+    dev:
+      account:
+      database:
+      password:
+      role:
+      schema:
+      threads:
+      type:
+      user:
+      warehouse:
+  target: dev
