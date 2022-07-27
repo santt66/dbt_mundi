@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+    description: Tablas de dimensiones y de hechos de Mundi
+  - name: mundi
+    database: MUNDI
+    schema: DBT_SABRUZZINI_SEED_DATA
+    tables:
+      - name: BUSINESS
+        description: Tabla de dimension con un registro por cada negocio.
+        columns:
+        -name: business_id
+        description: Id de la entidad business
+      - name: BUSINESS_PRODUCT
+      - name: CUSTOMER
+      - name: INVOICES
+      - name: INVOICE_ADVANCE
