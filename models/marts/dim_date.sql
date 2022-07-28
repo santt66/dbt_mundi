@@ -70,7 +70,8 @@ with rawdata as (with p as (select 0 as generated_number
                   where date_day <= cast('2023-01-01' as date))
 
 select date_day as date,
-       'W' || weekofyear(date_day)                   as week_of_year,
+       weekofyear(date_day)                          as week_of_year,
+       'W' || weekofyear(date_day)                   as week_of_year(txt),
        lpad(month(date_day), 2, 0)                   as month,
        monthname(date_day)                           as month_name,
        year(date_day)                                as year,
