@@ -1,4 +1,4 @@
-select id as product_id,
+select id as business_product_id,
        status,
        version,
        created_at,
