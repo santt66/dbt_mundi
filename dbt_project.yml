@@ -34,3 +34,5 @@ models:
   challenge:
     marts:
       +materialized: table
+    staging:
+      +materialized: view
