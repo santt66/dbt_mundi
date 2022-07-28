@@ -71,7 +71,7 @@ with rawdata as (with p as (select 0 as generated_number
 
 select date_day as date,
        weekofyear(date_day)                          as week_of_year,
-       'W' || weekofyear(date_day)                   as week_of_year(txt),
+       'W' || weekofyear(date_day)                   as week_of_yeartxt,
        lpad(month(date_day), 2, 0)                   as month,
        monthname(date_day)                           as month_name,
        year(date_day)                                as year,
