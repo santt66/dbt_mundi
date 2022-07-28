@@ -1,6 +1,6 @@
 select id as customer_id,
        applicant_id,
-       status,
+       upper(status) as customer_status,
        tax_id,
        address,
        email,

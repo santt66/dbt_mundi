@@ -1,0 +1,216 @@
+version: 2
+
+models:
+  - name: dim_business
+    description: Tabla de dimension con un registro por cada negocio.
+    columns:
+      - name: business_id
+        description: Id de la entidad business.
+        tests:
+          - unique
+          - not_null
+      - name: business_status
+        description: Estado de la entidad business, puede ser active o inactive.
+        tests:
+          - accepted_values:
+              values:
+                - ACTIVE
+                - INACTIVE
+      - name: name
+        description: Nombre del business.
+      - name: tax_id
+        description: Identificador tributario del business.
+      - name: registration_number
+        description: Numero con el cual se registro en Mundi, suele ser igual al tax_id.
+      - name: business_type
+        description: Tipo de business, puede ser exporter o forwarder.
+        tests:
+          - accepted_values:
+              values:
+                - EXPORTER
+                - FORWARDER
+      - name: _fivetran_deleted
+        description: Fecha en la cual se eliminó el registro del transaccional, si no tiene valor es porque aun existe.
+      - name: _fivetran_synced
+        description: Fecha en la cual se replicó el registro por primera vez.
+
+  - name: dim_business_product
+    description: Tabla de dimension con los productos correspondientes a cada negocio.
+    columns:
+      - name: product_id
+        description: Id de la entidad business_product.
+        tests:
+          - unique
+          - not_null
+      - name: product_status
+        description: Estado de la entidad business product, puede ser active o inactive.
+        tests:
+          - accepted_values:
+              values:
+                - ACTIVE
+                - INACTIVE
+      - name: version
+        description: Versión del registro, cada modificación aumenta en 1 la versión.
+      - name: created_at
+        description: Fecha de alta del business product.
+      - name: updated_at
+        description: Fecha de última modificación del registro.
+      - name: _fivetran_deleted
+        description: Fecha en la cual se eliminó el registro del transaccional, si no tiene valor es porque aun existe.
+      - name: _fivetran_synced
+        description: Fecha en la cual se replicó el registro por primera vez.
+      - name: business_id
+        description: Id del business asociado
+        tests:
+          - not_null
+      - name: product_name
+        description: Nombre o tipo del business product, puede ser invoice advance, insurance o fx spot
+        tests:
+          - accepted_values:
+              values:
+                - INVOICE ADVANCE
+                - INSURANCE
+                - FX-SPOT
+
+  - name: dim_customer
+    description: tabla de dimensión con un registro por cliente.
+    columns:
+      - name: customer_id
+        description: Id de la entidad customer.
+        tests:
+          - unique
+          - not_null
+      - name: applicant_id
+        description: Id de la solicitud del customer para formar parte de Mundi.
+      - name: customer_status
+        description: Estado del customer, puede ser active o inactive
+        tests:
+          - accepted_values:
+              values:
+                - ACTIVE
+                - INACTIVE
+      - name: tax_id
+        description: Identificador tributario del customer, puede coincidir con el de alguno de sus business.
+      - name: address
+        description: Dirección del customer.
+      - name: email
+        description: Email de contacto del customer.
+      - name: phone_number
+        description: Número de teléfono del customer.
+      - name: first_name
+        description: Primer nombre del customer.
+      - name: last_name
+        description: Apellido del customer.
+      - name: version
+        description: Versión del registro, cada modificación aumenta en 1 la versión.
+      - name: _fivetran_deleted
+        description: Fecha en la cual se eliminó el registro del transaccional, si no tiene valor es porque aun existe.
+      - name: _fivetran_synced
+        description: Fecha en la cual se replicó el registro por primera vez.
+
+  - name: fct_invoices
+    description: tabla de hechos con un registro por cada factura
+    columns:
+      - name: invoice_id
+        description: ID de la invoice en el sistema tributario.
+        tests:
+          - unique
+          - not_null
+      - name: invoice_type
+        description: Tipo de invoice. Tipo de invoice, I=Ingreso, E=Egreso, P=Pago, N=Pago Nómina, T=Transferencia de mercadería.
+        tests:
+          - accepted_values:
+              values:
+                - I
+                - E
+                - P
+                - N
+                - T
+      - name: payment_method
+        description: Metodo de pago de la invoice
+      - name: issuer_rfc
+        description: TAX_id del business que emite la invoice
+        tests:
+          - not_null
+      - name: issuer_name
+        description: Nombre del business que emite la invoice, puede no coincidir con el registrado en Mundi.
+      - name: receiver_name
+        description: Nombre del business al cual se le emite la invoice.
+      - name: currency
+        description: Moneda en la cual se emitió la invoice.
+      - name: total
+        description: Monto total de la transacción
+      - name: exchange_rate
+        description: Tipo de cambio del currency en el cual se expresó la transacción con respecto al dólar, salvo que esté expresada en USD, en ese caso es la tasa con respecto al MXN.
+      - name: invoice_status
+        description: Estado de la invoice, puede ser vigente o cancelado.
+        tests:
+          - accepted_values:
+              values:
+                - VIGENTE
+                - CANCELADO
+      - name: issued_at
+        description: Fecha en la que se emitió el invoice.
+      - name: certified_at
+        description: Fecha del certificado digital de la invoice.
+      - name: created_at
+        description: Fecha de creación del registro.
+      - name: updated_at
+        description: Fecha de última actualización del registro.
+
+  - name: fct_invoice_advance
+    description: tabla de hechos con un registro por cada adelanto realizado.
+    columns:
+      - name: invoice_advance_id
+        description: Id de la solicitud de invoice advance
+        tests:
+          - unique
+          - not_null
+      - name: state
+        description: Estado actual de la solicitud.
+      - name: business_product_id
+        description: ID del business product asociado
+      - name: business_id
+        description: ID del business asociado al business_product.
+        tests:
+          - not_null
+      - name: customer_id
+        description: ID del customer asociado al business asociado al business_product.
+        tests:
+          - not_null
+      - name: advance_amount
+        description: Monto de adelanto solicitado.
+      - name: effective_advance
+        description: Monto efectivamente adelantado al business.
+      - name: effective_collection
+        description: Monto de dinero ingresado a Mundi en concepto de devoluciones del adelanto efectuado.
+      - name: fee_at_due
+        description: Intereses calculados sobre el effective advance desde el advance_date hasta el due_date.
+      - name: repayment_amount
+        description: Monto a repagar, suma de advance_amount + fee_at_due.
+      - name: due_date
+        description: Fecha de vencimiento de la deuda, momento en el cual se debe devolver el dinero adelantado.
+      - name: currency
+        description: Moneda en la cual están expresados los montos.
+      - name: advance_date
+        description: Fecha en la cual se depositó el adelanto al business, en el caso que no tenga valor es porque aun eso no sucedió.
+      - name: grace_period_ends_at
+        description: Período hasta el cual se tiene tolerancia respetando los fees originales.
+      - name: created_at
+        description: Fecha en la que se creó el registro.
+      - name: requested_at
+        description: Fecha en la que se solicitó el adelanto.
+      - name: updated_at
+        description: Fecha en la que el registro se actualizó por última vez.
+      - name: paid_at
+        description: Fecha en la que se terminó de devolver el dinero del adelanto.
+      - name: version
+        description: Versión del registro, cada modificación aumenta en 1 la versión.
+      - name: _fivetran_deleted
+        description: Fecha en la cual se eliminó el registro del transaccional, si no tiene valor es porque aun existe.
+      - name: _fivetran_synced
+        description: Fecha en la cual se replicó el registro por primera vez.
+      - name: business_id
+        description: Id del business asociado.
+      - name: total
+        description: Monto total de la factura emitida por la cual se solicita el adelanto.

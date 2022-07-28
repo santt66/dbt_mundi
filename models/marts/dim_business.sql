@@ -1,10 +1,10 @@
 select id as business_id,
        customer_id,
-       status,
+       upper(status) as business_status,
        name,
        tax_id,
        registration_number,
-       type as business_type,
+       upper(type) as business_type,
        address,
        _fivetran_deleted,
        _fivetran_synced
