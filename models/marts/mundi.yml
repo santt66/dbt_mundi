@@ -243,7 +243,9 @@ models:
       - name: date
         description: fecha en formato DD/MM/YYYY
       - name: week_of_year
-        description: semana del año del campo date
+        description: semana del año del campo date        
+      - name: week_of_year(txt)
+        description: semana del año del campo date, en formato 'WWW'
       - name: month
         description: número de me correspondiente al campo date, en formato 'MM'
       - name: month_name
