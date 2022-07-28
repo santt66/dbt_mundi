@@ -43,12 +43,12 @@ models:
           - unique
           - not_null
       - name: product_status
-        description: Estado de la entidad business product, puede ser active o inactive.
+        description: Estado de la entidad business product, puede ser active o deleted.
         tests:
           - accepted_values:
               values:
                 - ACTIVE
-                - INACTIVE
+                - DELETED
       - name: version
         description: Versión del registro, cada modificación aumenta en 1 la versión.
       - name: created_at
