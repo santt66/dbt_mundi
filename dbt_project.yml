@@ -31,5 +31,6 @@ seeds:
   +schema: seed_data
 
 models:
-  marts:
-    +materialized: table
+  mundi:
+    marts:
+      +materialized: table
