@@ -4,7 +4,7 @@ select id as business_id,
        name,
        tax_id,
        registration_number,
-       type,
+       type as business_type,
        address,
        _fivetran_deleted,
        _fivetran_synced
