@@ -72,7 +72,7 @@ models:
                 - INSURANCE
                 - FX-SPOT
 
-  - name: dim_customer
+  - name: dim_customers
     description: tabla de dimensión con un registro por cliente.
     columns:
       - name: customer_id
