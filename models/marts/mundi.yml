@@ -149,14 +149,22 @@ models:
               values:
                 - VIGENTE
                 - CANCELADO
-      - name: issued_at
+      - name: issued_at_date
         description: Fecha en la que se emitió el invoice.
-      - name: certified_at
+      - name: issued_at_datetime
+        description: Fecha y hora en la que se emitió el invoice.        
+      - name: certified_at_date
         description: Fecha del certificado digital de la invoice.
-      - name: created_at
+      - name: certified_at_datetime
+        description: Fecha y hora del certificado digital de la invoice.        
+      - name: created_at_date
         description: Fecha de creación del registro.
-      - name: updated_at
+      - name: created_at_datetime
+        description: Fecha y hora de creación del registro.        
+      - name: updated_at_date
         description: Fecha de última actualización del registro.
+      - name: updated_at_datetime
+        description: Fecha y hora de última actualización del registro.        
 
   - name: fct_invoice_advance
     description: tabla de hechos con un registro por cada adelanto realizado.
@@ -166,7 +174,7 @@ models:
         tests:
           - unique
           - not_null
-      - name: state
+      - name: invoice_advance_state
         description: Estado actual de la solicitud.
       - name: business_product_id
         description: ID del business product asociado
@@ -190,20 +198,34 @@ models:
         description: Monto a repagar, suma de advance_amount + fee_at_due.
       - name: due_date
         description: Fecha de vencimiento de la deuda, momento en el cual se debe devolver el dinero adelantado.
+      - name: due_datetime
+        description: Fecha y hora de vencimiento de la deuda, momento en el cual se debe devolver el dinero adelantado.        
       - name: currency
         description: Moneda en la cual están expresados los montos.
       - name: advance_date
         description: Fecha en la cual se depositó el adelanto al business, en el caso que no tenga valor es porque aun eso no sucedió.
-      - name: grace_period_ends_at
+      - name: advance_datetime
+        description: Fecha y hora en la cual se depositó el adelanto al business, en el caso que no tenga valor es porque aun eso no sucedió.        
+      - name: grace_period_ends_at_date
         description: Período hasta el cual se tiene tolerancia respetando los fees originales.
-      - name: created_at
+      - name: grace_period_ends_at_datetime
+        description: Período en fecha y hora hasta el cual se tiene tolerancia respetando los fees originales.        
+      - name: created_at_date
         description: Fecha en la que se creó el registro.
-      - name: requested_at
+      - name: created_at_datetime
+        description: Fecha y hora en la que se creó el registro.        
+      - name: requested_at_date
         description: Fecha en la que se solicitó el adelanto.
-      - name: updated_at
+      - name: requested_at_datetime
+        description: Fecha y hora en la que se solicitó el adelanto.        
+      - name: updated_at_date
         description: Fecha en la que el registro se actualizó por última vez.
-      - name: paid_at
+      - name: updated_at_datetime
+        description: Fecha y hora en la que el registro se actualizó por última vez.        
+      - name: paid_at_date
         description: Fecha en la que se terminó de devolver el dinero del adelanto.
+      - name: paid_at_datetime
+        description: Fecha en la que se terminó de devolver el dinero del adelanto.        
       - name: version
         description: Versión del registro, cada modificación aumenta en 1 la versión.
       - name: _fivetran_deleted
@@ -214,3 +236,19 @@ models:
         description: Id del business asociado.
       - name: total
         description: Monto total de la factura emitida por la cual se solicita el adelanto.
+  
+  - name: dim_date
+    description: tabla de dimensión con un registro por día.
+    columns:
+      - name: date
+        description: fecha en formato DD/MM/YYYY
+      - name: week_of_year
+        description: semana del año del campo date
+      - name: month
+        description: número de me correspondiente al campo date, en formato 'MM'
+      - name: month_name
+        description: nombre del mes correspondiente al campo date, en formato 'MMM'
+      - name: year
+        description: año correspondiente al campo date, en formato 'YYYY'
+      - name: year_month
+        description: año y mes correspondiente al campo date, en formato 'YYYYMM'                                

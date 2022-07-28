@@ -8,8 +8,12 @@ select id as invoice_id,
        total,
        exchange_rate,
        upper(status) as invoice_status,
-       issued_at,
-       certified_at,
-       created_at,
-       updated_at
+       issued_at as issued_at_datetime,
+       certified_at as certified_at_datetime,
+       created_at as created_at_datetime,
+       updated_at as updated_at_datetime,
+       cast(issued_at as date) as issued_at_date,
+       cast(certified_at as date) as certified_at_date,
+       cast(created_at as date) as created_at_date,
+       cast(updated_at as date) as updated_at_date
 from {{ source('mundi', 'INVOICES') }}
