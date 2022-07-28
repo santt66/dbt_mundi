@@ -31,6 +31,6 @@ seeds:
   +schema: seed_data
 
 models:
-  mundi:
+  challenge:
     marts:
       +materialized: table
