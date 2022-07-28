@@ -9,31 +9,18 @@ sources:
       - name: BUSINESS
         description: Tabla de dimension con un registro por cada negocio.
         columns:
-          - name: business_id
+          - name: id
             description: Id de la entidad business.
-            tests:
-              - unique
-              - not_null
           - name: status
             description: Estado de la entidad business, puede ser active o inactive.
-            tests:
-              - accepted_values:
-                  values:
-                  - active
-                  - inactive
           - name: name
             description: Nombre del business.
           - name: tax_id
             description: Identificador tributario del business.
           - name: registration_number
             description: Numero con el cual se registro en Mundi, suele ser igual al tax_id.
-          - name: business_type
+          - name: type
             description: Tipo de business, puede ser exporter o forwarder.
-            tests:
-              - accepted_values:
-                  values:
-                    - exporter
-                    - forwarder
           - name: _fivetran_deleted
             description: Fecha en la cual se eliminó el registro del transaccional, si no tiene valor es porque aun existe.
           - name: _fivetran_synced
@@ -44,16 +31,8 @@ sources:
         columns:
           - name: id
             description: Id de la entidad business_product.
-            tests:
-              - unique
-              - not_null
           - name: status
             description: Estado de la entidad business product, puede ser active o inactive.
-            tests:
-              - accepted_values:
-                  values:
-                    - active
-                    - inactive
           - name: version
             description: Versión del registro, cada modificación aumenta en 1 la versión.
           - name: created_at
@@ -66,34 +45,18 @@ sources:
             description: Fecha en la cual se replicó el registro por primera vez.
           - name: business_id
             description: Id del business asociado
-            tests:
-              - not_null
           - name: product_name
             description: Nombre o tipo del business product, puede ser invoice advance, insurance o fx spot
-            tests:
-              - accepted_values:
-                  values:
-                    - Invoice advance
-                    - Insurance
-                    - fx-spot
 
       - name: CUSTOMER
         description: tabla de dimensión con un registro por cliente.
         columns:
-          - name: customer_id
+          - name: id
             description: Id de la entidad customer.
-            tests:
-              - unique
-              - not_null
           - name: applicant_id
             description: Id de la solicitud del customer para formar parte de Mundi.
           - name: status
             description: Estado del customer, puede ser active o inactive
-            tests:
-              - accepted_values:
-                  values:
-                    - active
-                    - inactive
           - name: tax_id
             description: Identificador tributario del customer, puede coincidir con el de alguno de sus business.
           - name: address
@@ -118,25 +81,12 @@ sources:
         columns:
           - name: id
             description: ID de la invoice en el sistema tributario.
-            tests:
-              - unique
-              - not_null
           - name: type
             description: Tipo de invoice. Tipo de invoice, I=Ingreso, E=Egreso, P=Pago, N=Pago Nómina, T=Transferencia de mercadería.
-            tests:
-              - accepted_values:
-                  values:
-                  - I
-                  - E
-                  - P
-                  - N
-                  - T
           - name: payment_method
             description: Metodo de pago de la invoice
           - name: issuer_rfc
             description: TAX_id del business que emite la invoice
-            tests:
-              - not_null
           - name: issuer_name
             description: Nombre del business que emite la invoice, puede no coincidir con el registrado en Mundi.
           - name: receiver_name
@@ -149,11 +99,6 @@ sources:
             description: Tipo de cambio del currency en el cual se expresó la transacción con respecto al dólar, salvo que esté expresada en USD, en ese caso es la tasa con respecto al MXN.
           - name: status
             description: Estado de la invoice, puede ser vigente o cancelado.
-            tests:
-              - accepted_values:
-                  values:
-                    - VIGENTE
-                    - CANCELADO
           - name: issued_at
             description: Fecha en la que se emitió el invoice.
           - name: certified_at
@@ -166,23 +111,16 @@ sources:
       - name: INVOICE_ADVANCE
         description: tabla de hechos con un registro por cada adelanto realizado.
         columns:
-          - name: invoice_advance_id
+          - name: id
             description: Id de la solicitud de invoice advance
-            tests:
-              - unique
-              - not_null
           - name: state
             description: Estado actual de la solicitud.
           - name: business_product_id
             description: ID del business product asociado
           - name: business_id
             description: ID del business asociado al business_product.
-            tests:
-              - not_null
           - name: customer_id
             description: ID del customer asociado al business asociado al business_product.
-            tests:
-              - not_null
           - name: advance_amount
             description: Monto de adelanto solicitado.
           - name: effective_advance

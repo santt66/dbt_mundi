@@ -29,3 +29,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 seeds:
   +schema: seed_data
+
+models:
+  marts:
+    +materialized: table
