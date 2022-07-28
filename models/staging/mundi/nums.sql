@@ -50,5 +50,5 @@ with p as (select 0 as generated_number
 select generated_number as n_one,
        n_one - 1        as n_zero
 from unioned
-where generated_number <= 2000
+where generated_number <= 20000
 order by generated_number
