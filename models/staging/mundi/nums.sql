@@ -22,6 +22,14 @@ with p as (select 0 as generated_number
                         p9.generated_number * power(2, 9)
                             +
                         p10.generated_number * power(2, 10)
+                            +
+                        p11.generated_number * power(2, 11)
+                            +
+                        p12.generated_number * power(2, 12)
+                            +
+                        p13.generated_number * power(2, 13)
+                            +
+                        p14.generated_number * power(2, 14)
                             + 1
                             as generated_number
 
@@ -45,10 +53,18 @@ with p as (select 0 as generated_number
                           cross join
                       p as p9
                           cross join
-                      p as p10)
+                      p as p10
+                          cross join
+                      p as p11
+                          cross join
+                      p as p12
+                          cross join
+                      p as p13
+                          cross join
+                      p as p14)
 
 select generated_number as n_one,
-       n_one - 1        as n_zero
+n_one -1 as n_zero
 from unioned
 where generated_number <= 20000
 order by generated_number
