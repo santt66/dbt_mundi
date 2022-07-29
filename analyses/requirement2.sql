@@ -1,3 +1,4 @@
+-- REQUERIMIENTO 2
 -- Listado de todos los business existentes en Mundi, con la cantidad de business_product
 -- de tipo invoice advance activos creados en 2021 y 2022;
 -- siempre y cuando haya tenido al menos 1 por cada año, de lo contrario mostrar 0.
