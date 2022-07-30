@@ -3,6 +3,7 @@
 -- de tipo invoice advance activos creados en 2021 y 2022;
 -- siempre y cuando haya tenido al menos 1 por cada año, de lo contrario mostrar 0.
 
+-- 1ro separo los business products creados en 2021
 with product2021 as (SELECT BUSINESS_ID,
                             count(PRODUCT_ID) as business_products_2021
                      from MUNDI.PUBLIC.DIM_BUSINESS_PRODUCT
@@ -12,6 +13,8 @@ with product2021 as (SELECT BUSINESS_ID,
                      group by 1
                      order by 1),
 
+
+-- 2do separo los business products creados en 2022
      product2022 as (SELECT BUSINESS_ID,
                             count(PRODUCT_ID) as business_products_2022
                      from MUNDI.PUBLIC.DIM_BUSINESS_PRODUCT
@@ -21,6 +24,7 @@ with product2021 as (SELECT BUSINESS_ID,
                      group by 1
                      order by 1)
 
+-- 3ro unifico las subqueries a la tabla business
 select distinct(a.NAME)                                                    as business_name,
                b.business_products_2021,
                c.business_products_2022,
@@ -29,3 +33,5 @@ from MUNDI.PUBLIC.DIM_BUSINESS a
          left join product2021 b on a.BUSINESS_ID = b.BUSINESS_ID
          left join product2022 c on a.BUSINESS_ID = c.BUSINESS_ID
 order by 1
+
+-- Como conclusión, hay 10 Business distintos, de los cuales 3 tuvieron business productos tanto en 2021 como en 2022.
